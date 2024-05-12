@@ -1,0 +1,53 @@
+create database Airport
+use Airport
+create table Airport(
+Airport_code nvarchar(20) primary key not null,
+Airport_name nvarchar(20) not null,
+City nvarchar(20) not null,
+State nvarchar(20) not null
+)
+create table Airline(
+Airline_code nvarchar(20) primary key not null,
+Name nvarchar(20) not null,
+)
+create table Flight(
+Flight_number nvarchar(20) primary key not null,
+weekdays nvarchar(40),
+Airline_code nvarchar(20) foreign key references Airline(Airline_code),
+)
+create table Flight_leg(
+Leg_number nvarchar(20) primary key not null,
+scheduled_Departure_time nvarchar(20) not null,
+scheduled_Arrival_time nvarchar(20) not null,
+Departure_Airport nvarchar(20) foreign key references Airport(Airport_code) not null,
+Flight_number nvarchar(20) foreign key references Flight(Flight_number) not null,
+Arrival_Airport nvarchar(20) foreign key references Airport(Airport_code) not null,
+)
+create table Airplane_type(
+Airplane_Type_name nvarchar(20) primary key not null,
+Manufactring_name nvarchar(20) not null,
+Max_num_of_seats nvarchar(20) not null,
+)
+create table Airplane(
+Airplane_id nvarchar(20) primary key not null,
+Total_num_of_seats nvarchar(20) not null,
+Airplane_type_id nvarchar(20) foreign key references Airplane_Type(Airplane_Type_name),
+)
+create table Leg_instance(
+Leg_instance_id nvarchar(20) primary key not null,
+Date nvarchar(20) not null,
+Departure_Airport nvarchar(20) foreign key references Airport(Airport_code) not null,
+Departure_time nvarchar(20) not null,
+Arrival_Airport nvarchar(20) not null,
+Arrival_time nvarchar(20) not null,
+Leg_number nvarchar(20) foreign key references Flight_leg(Leg_number) not null,
+Airplane_id nvarchar(20) foreign key references Airplane(Airplane_id) not null,
+Number_of_available_seats int not null,
+)
+create table Reservation(
+Researvation_id nvarchar(20) not null,
+customer_name nvarchar(20) not null,
+Phone nvarchar(20) not null,
+Seat_number nvarchar(20) not null,
+Leg_instance_id nvarchar(20) foreign key references leg_instance(Leg_instance_id),
+)
